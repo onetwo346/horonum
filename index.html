@@ -158,9 +158,14 @@
             font-size: 1rem;
         }
 
-        .generate-btn {
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .generate-btn, .clear-btn {
             padding: 10px 40px;
-            background: #00ccff;
             border: none;
             border-radius: 50px;
             color: #2b0a5a;
@@ -169,7 +174,15 @@
             transition: transform 0.3s;
         }
 
-        .generate-btn:hover {
+        .generate-btn {
+            background: #00ccff;
+        }
+
+        .clear-btn {
+            background: #ff6666;
+        }
+
+        .generate-btn:hover, .clear-btn:hover {
             transform: scale(1.05);
         }
 
@@ -212,6 +225,7 @@
             #intro-page h1 { font-size: 2.5rem; }
             .star-selector { flex-direction: column; gap: 10px; }
             .support-btn { padding: 10px 20px; font-size: 1rem; }
+            .button-group { flex-direction: column; gap: 10px; }
         }
 
         @media (max-width: 480px) {
@@ -253,7 +267,10 @@
             <div class="input-constellation">
                 <input type="text" id="name" placeholder="Your Full Name">
                 <input type="date" id="birthdate" placeholder="Birth Date">
-                <button class="generate-btn" onclick="generateInsight()">Generate</button>
+                <div class="button-group">
+                    <button class="generate-btn" onclick="generateInsight()">Generate</button>
+                    <button class="clear-btn" onclick="clearForm()">Clear</button>
+                </div>
             </div>
             <div class="output-sphere" id="output"></div>
             <div class="spin-info">The stars align to reveal your destiny!</div>
@@ -274,12 +291,11 @@
             selectedMode = mode;
             document.querySelectorAll('.star-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            document.getElementById('output').innerHTML = '';
-            document.getElementById('learn-more-btn').style.display = 'none';
+            clearOutput();
         }
 
         function generateInsight() {
-            const name = document.getElementById('name').value;
+            const name = document.getElementById('name').value.trim();
             const birthdate = document.getElementById('birthdate').value;
             if (!name || !birthdate) {
                 alert('Please enter your name and birth date!');
@@ -302,6 +318,18 @@
 
             document.getElementById('output').innerHTML = output;
             document.getElementById('learn-more-btn').style.display = 'block';
+        }
+
+        function clearForm() {
+            document.getElementById('name').value = '';
+            document.getElementById('birthdate').value = '';
+            clearOutput();
+            userData = {};
+        }
+
+        function clearOutput() {
+            document.getElementById('output').innerHTML = '';
+            document.getElementById('learn-more-btn').style.display = 'none';
         }
 
         function getZodiac(month, day) {
