@@ -1,1 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stellar Insights</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
 
+        body {
+            background: linear-gradient(135deg, #1a0033, #330066);
+            color: #fff;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Intro Page */
+        #intro-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: starPulse 10s infinite;
+            position: relative;
+        }
+
+        @keyframes starPulse {
+            0% { background: linear-gradient(135deg, #1a0033, #330066); }
+            50% { background: linear-gradient(135deg, #330066, #1a0033); }
+            100% { background: linear-gradient(135deg, #1a0033, #330066); }
+        }
+
+        #intro-page h1 {
+            font-size: 3.5rem;
+            text-shadow: 0 0 15px #ffcc00;
+            margin-bottom: 20px;
+        }
+
+        #intro-page p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+        }
+
+        .insight-btn {
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            background: #ffcc00;
+            border: none;
+            border-radius: 50px;
+            color: #1a0033;
+            cursor: pointer;
+            animation: glow 2s infinite;
+            transition: transform 0.3s;
+        }
+
+        .insight-btn:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #ffcc00; }
+            50% { box-shadow: 0 0 25px #ffcc00, 0 0 50px rgba(255, 204, 0, 0.5); }
+            100% { box-shadow: 0 0 10px #ffcc00; }
+        }
+
+        .support-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #00ccff;
+            border-radius: 20px;
+            color: #1a0033;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .support-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Main Page */
+        #main-page {
+            display: none;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .celestial-interface {
+            width: 90%;
+            max-width: 900px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .star-selector {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .star-btn {
+            width: 120px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .star-btn:hover, .star-btn.active {
+            background: #ffcc00;
+            color: #1a0033;
+            transform: scale(1.1);
+        }
+
+        .input-constellation {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 20px;
+            width: 100%;
+            border: 2px dashed #00ccff;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+
+        .input-constellation:hover {
+            transform: scale(1.05);
+        }
+
+        .input-constellation input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: transparent;
+            border: 1px solid #ffcc00;
+            border-radius: 10px;
+            color: #fff;
+        }
+
+        .generate-btn {
+            padding: 10px 20px;
+            background: #00ccff;
+            border: none;
+            border-radius: 20px;
+            color: #1a0033;
+            cursor: pointer;
+        }
+
+        .output-sphere {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 20px;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ffcc00;
+            animation: rotateSphere 10s infinite linear;
+        }
+
+        @keyframes rotateSphere {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #intro-page h1 { font-size: 2.5rem; }
+            .celestial-interface { width: 95%; }
+            .star-selector { flex-direction: column; }
+        }
+
+        @media (max-width: 480px) {
+            #intro-page h1 { font-size: 1.8rem; }
+            .insight-btn { font-size: 1rem; padding: 10px 20px; }
+            .star-btn { width: 100px; padding: 10px; }
+            .output-sphere { max-height: 200px; }
+            .support-btn { font-size: 0.9rem; padding: 8px 15px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Intro Page -->
+    <div id="intro-page">
+        <h1>Stellar Insights</h1>
+        <p>Your Personalized Cosmic Journey Awaits</p>
+        <button class="insight-btn" onclick="showMainPage()">Unlock Insights</button>
+        <a href="https://buy.stripe.com/00g16Q5xv4Cw05G6oo" class="support-btn">Support Us</a>
+    </div>
+
+    <!-- Main Page -->
+    <div id="main-page">
+        <div class="celestial-interface">
+            <div class="star-selector">
+                <div class="star-btn active" onclick="selectMode('horoscope')">Daily Horoscope</div>
+                <div class="star-btn" onclick="selectMode('numerology')">Numerology</div>
+            </div>
+            <div class="input-constellation">
+                <input type="text" id="name" placeholder="Your Full Name">
+                <input type="date" id="birthdate" placeholder="Birth Date">
+                <button class="generate-btn" onclick="generateInsight()">Generate</button>
+            </div>
+            <div class="output-sphere" id="output"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedMode = 'horoscope';
+
+        function showMainPage() {
+            document.getElementById('intro-page').style.display = 'none';
+            document.getElementById('main-page').style.display = 'flex';
+        }
+
+        function selectMode(mode) {
+            selectedMode = mode;
+            document.querySelectorAll('.star-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('output').innerHTML = '';
+        }
+
+        function generateInsight() {
+            const name = document.getElementById('name').value;
+            const birthdate = document.getElementById('birthdate').value;
+            if (!name || !birthdate) {
+                alert('Please enter your name and birth date!');
+                return;
+            }
+
+            const date = new Date(birthdate);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const zodiac = getZodiac(month, day);
+            let output = '';
+
+            if (selectedMode === 'horoscope') {
+                output = generateHoroscope(name, zodiac);
+            } else {
+                output = generateNumerology(name, birthdate);
+            }
+
+            document.getElementById('output').innerHTML = output;
+        }
+
+        function getZodiac(month, day) {
+            if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'Aries';
+            if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return 'Taurus';
+            if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return 'Gemini';
+            if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return 'Cancer';
+            if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return 'Leo';
+            if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return 'Virgo';
+            if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'Libra';
+            if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'Scorpio';
+            if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'Sagittarius';
+            if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'Capricorn';
+            if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'Aquarius';
+            if ((month === 2 && day >= 19) || (month === 3 && day <= 20)) return 'Pisces';
+            return 'Unknown';
+        }
+
+        function generateHoroscope(name, zodiac) {
+            const messages = [
+                `Today, ${name}, the stars align to bring you unexpected opportunities. Embrace change!`,
+                `${name}, your ${zodiac} energy shines bright—focus on self-care and inner peace today.`,
+                `The cosmos whisper to ${name}: trust your instincts, for they guide you true under ${zodiac}'s light.`
+            ];
+            const randomIdx = Math.floor(Math.random() * messages.length);
+            return `<h3>Your ${zodiac} Horoscope</h3><p>${messages[randomIdx]}</p>`;
+        }
+
+        function generateNumerology(name, birthdate) {
+            const date = new Date(birthdate);
+            let sum = date.getDate() + (date.getMonth() + 1) + date.getFullYear();
+            while (sum > 9) sum = sum.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+            
+            const meanings = {
+                1: 'Leadership and ambition drive you today, ${name}.',
+                2: 'Harmony and balance are your focus, ${name}.',
+                3: 'Creativity flows through you, ${name}, embrace it!',
+                4: 'Stability and hard work pay off for you, ${name}.',
+                5: 'Change and adventure call to you, ${name}.',
+                6: 'Love and responsibility guide your path, ${name}.',
+                7: 'Wisdom and introspection define your day, ${name}.',
+                8: 'Power and success are within reach, ${name}.',
+                9: 'Compassion and closure mark your journey, ${name}.'
+            };
+            return `<h3>Your Numerology Reading</h3><p>Life Path Number: ${sum}</p><p>${meanings[sum].replace('${name}', name)}</p>`;
+        }
+    </script>
+</body>
+</html>
