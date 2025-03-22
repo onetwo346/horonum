@@ -13,15 +13,15 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a0033, #330066);
+            background: linear-gradient(135deg, #2b0a5a, #5a0a2b);
             color: #fff;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* Intro Page */
         #intro-page {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -29,22 +29,23 @@
             text-align: center;
             animation: starPulse 10s infinite;
             position: relative;
+            padding: 20px;
         }
 
         @keyframes starPulse {
-            0% { background: linear-gradient(135deg, #1a0033, #330066); }
-            50% { background: linear-gradient(135deg, #330066, #1a0033); }
-            100% { background: linear-gradient(135deg, #1a0033, #330066); }
+            0% { background: linear-gradient(135deg, #2b0a5a, #5a0a2b); }
+            50% { background: linear-gradient(135deg, #5a0a2b, #2b0a5a); }
+            100% { background: linear-gradient(135deg, #2b0a5a, #5a0a2b); }
         }
 
         #intro-page h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             text-shadow: 0 0 15px #ffcc00;
             margin-bottom: 20px;
         }
 
         #intro-page p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 30px;
         }
 
@@ -54,7 +55,7 @@
             background: #ffcc00;
             border: none;
             border-radius: 50px;
-            color: #1a0033;
+            color: #2b0a5a;
             cursor: pointer;
             animation: glow 2s infinite;
             transition: transform 0.3s;
@@ -71,34 +72,41 @@
         }
 
         .support-btn {
-            position: absolute;
+            position: fixed;
             bottom: 20px;
             right: 20px;
-            padding: 10px 20px;
+            padding: 12px 25px;
             background: #00ccff;
-            border-radius: 20px;
-            color: #1a0033;
+            border-radius: 25px;
+            color: #2b0a5a;
             text-decoration: none;
+            font-size: 1.1rem;
             transition: transform 0.3s;
+            animation: bounce 3s infinite;
+            z-index: 1000;
         }
 
         .support-btn:hover {
             transform: scale(1.1);
         }
 
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
         /* Main Page */
         #main-page {
             display: none;
-            height: 100vh;
+            min-height: 100vh;
             justify-content: center;
             align-items: center;
-            position: relative;
+            padding: 20px;
         }
 
         .celestial-interface {
-            width: 90%;
-            max-width: 900px;
-            height: 80vh;
+            width: 100%;
+            max-width: 500px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -111,34 +119,32 @@
         }
 
         .star-btn {
-            width: 120px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 30px;
+            background: #ffcc00;
             border: 2px solid #ffcc00;
             border-radius: 10px;
+            color: #2b0a5a;
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
         }
 
-        .star-btn:hover, .star-btn.active {
-            background: #ffcc00;
-            color: #1a0033;
-            transform: scale(1.1);
+        .star-btn.active {
+            background: transparent;
+            color: #ffcc00;
+        }
+
+        .star-btn:hover {
+            transform: scale(1.05);
         }
 
         .input-constellation {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
             border-radius: 20px;
             width: 100%;
-            border: 2px dashed #00ccff;
+            border: 2px dashed #ffcc00;
             margin-bottom: 20px;
-            transition: transform 0.3s;
-        }
-
-        .input-constellation:hover {
-            transform: scale(1.05);
         }
 
         .input-constellation input {
@@ -146,18 +152,25 @@
             padding: 10px;
             margin: 10px 0;
             background: transparent;
-            border: 1px solid #ffcc00;
-            border-radius: 10px;
+            border: 2px solid #ffcc00;
+            border-radius: 20px;
             color: #fff;
+            font-size: 1rem;
         }
 
         .generate-btn {
-            padding: 10px 20px;
+            padding: 10px 40px;
             background: #00ccff;
             border: none;
-            border-radius: 20px;
-            color: #1a0033;
+            border-radius: 50px;
+            color: #2b0a5a;
             cursor: pointer;
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+        }
+
+        .generate-btn:hover {
+            transform: scale(1.05);
         }
 
         .output-sphere {
@@ -169,6 +182,8 @@
             overflow-y: auto;
             border: 1px solid #ffcc00;
             animation: rotateSphere 10s infinite linear;
+            position: relative;
+            margin-top: 20px;
         }
 
         @keyframes rotateSphere {
@@ -176,19 +191,53 @@
             100% { transform: rotate(360deg); }
         }
 
+        .spin-info {
+            font-size: 0.8rem;
+            color: #ffcc00;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .learn-more-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #ffcc00;
+            border: none;
+            border-radius: 20px;
+            color: #2b0a5a;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .learn-more-btn:hover {
+            transform: scale(1.05);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             #intro-page h1 { font-size: 2.5rem; }
-            .celestial-interface { width: 95%; }
-            .star-selector { flex-direction: column; }
+            .star-selector { flex-direction: column; gap: 10px; }
+            .support-btn { padding: 10px 20px; font-size: 1rem; }
         }
 
         @media (max-width: 480px) {
-            #intro-page h1 { font-size: 1.8rem; }
+            #intro-page h1 { font-size: 2rem; }
             .insight-btn { font-size: 1rem; padding: 10px 20px; }
-            .star-btn { width: 100px; padding: 10px; }
+            .star-btn { padding: 10px 20px; font-size: 0.9rem; }
             .output-sphere { max-height: 200px; }
-            .support-btn { font-size: 0.9rem; padding: 8px 15px; }
+            .support-btn { padding: 8px 15px; font-size: 0.9rem; bottom: 80px; }
+        }
+
+        /* iPhone-specific adjustments */
+        @media only screen and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 3) {
+            .support-btn {
+                bottom: 80px;
+                right: 15px;
+                padding: 12px 25px;
+                font-size: 1.2rem;
+                background: #00ccff;
+                animation: bounce 2s infinite;
+            }
         }
     </style>
 </head>
@@ -214,11 +263,14 @@
                 <button class="generate-btn" onclick="generateInsight()">Generate</button>
             </div>
             <div class="output-sphere" id="output"></div>
+            <div class="spin-info">The sphere spins as the stars align to reveal your destiny!</div>
+            <button class="learn-more-btn" id="learn-more-btn" style="display: none;" onclick="showMoreInsights()">Learn More Insights</button>
         </div>
     </div>
 
     <script>
         let selectedMode = 'horoscope';
+        let userData = {};
 
         function showMainPage() {
             document.getElementById('intro-page').style.display = 'none';
@@ -230,6 +282,7 @@
             document.querySelectorAll('.star-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             document.getElementById('output').innerHTML = '';
+            document.getElementById('learn-more-btn').style.display = 'none';
         }
 
         function generateInsight() {
@@ -246,6 +299,8 @@
             const zodiac = getZodiac(month, day);
             let output = '';
 
+            userData = { name, zodiac, birthdate };
+
             if (selectedMode === 'horoscope') {
                 output = generateHoroscope(name, zodiac);
             } else {
@@ -253,6 +308,7 @@
             }
 
             document.getElementById('output').innerHTML = output;
+            document.getElementById('learn-more-btn').style.display = 'block';
         }
 
         function getZodiac(month, day) {
@@ -298,6 +354,41 @@
                 9: 'Compassion and closure mark your journey, ${name}.'
             };
             return `<h3>Your Numerology Reading</h3><p>Life Path Number: ${sum}</p><p>${meanings[sum].replace('${name}', name)}</p>`;
+        }
+
+        function showMoreInsights() {
+            let moreOutput = '';
+            const { name, zodiac, birthdate } = userData;
+
+            if (selectedMode === 'horoscope') {
+                const extraMessages = [
+                    `As a ${zodiac}, ${name}, you might find luck in unexpected conversations today.`,
+                    `The planetary alignment suggests, ${name}, that ${zodiac} traits like creativity will lead to success.`,
+                    `${name}, ${zodiac}'s influence means it’s a great day for new beginnings—seize it!`
+                ];
+                const randomIdx = Math.floor(Math.random() * extraMessages.length);
+                moreOutput = `<h3>More Cosmic Insights</h3><p>${extraMessages[randomIdx]}</p>`;
+            } else {
+                const date = new Date(birthdate);
+                let nameNumber = name.toLowerCase().split('').reduce((sum, char) => sum + (char.charCodeAt(0) - 96), 0);
+                while (nameNumber > 9) nameNumber = nameNumber.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+                
+                const nameMeanings = {
+                    1: `${name}, your name resonates with independence—channel this into bold decisions.`,
+                    2: `Cooperation defines your name’s energy, ${name}. Seek partnerships today.`,
+                    3: `Your name vibrates with creativity, ${name}. Express yourself freely!`,
+                    4: `Discipline is key for you, ${name}, as your name suggests.`,
+                    5: `Adventure flows through your name, ${name}. Embrace the unknown!`,
+                    6: `Love and harmony surround your name, ${name}. Nurture relationships.`,
+                    7: `Your name holds mystical energy, ${name}. Trust your intuition.`,
+                    8: `Power and ambition are tied to your name, ${name}. Aim high!`,
+                    9: `Compassion defines your name’s essence, ${name}. Help others today.`
+                };
+                moreOutput = `<h3>Deeper Numerology Insights</h3><p>Name Number: ${nameNumber}</p><p>${nameMeanings[nameNumber]}</p>`;
+            }
+
+            document.getElementById('output').innerHTML += moreOutput;
+            document.getElementById('learn-more-btn').style.display = 'none';
         }
     </script>
 </body>
