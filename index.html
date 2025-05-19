@@ -565,6 +565,25 @@
                     showMoreInsights('numerology');
                 });
                 
+                // Add deeper insights for natal chart tabs (optional, placeholder)
+                setTimeout(function() {
+                    ['planets','houses','aspects','patterns'].forEach(function(tab) {
+                        const container = document.getElementById('analysis-content');
+                        if (container && !document.getElementById('more-' + tab + '-btn')) {
+                            const btn = document.createElement('button');
+                            btn.className = 'insight-btn';
+                            btn.id = 'more-' + tab + '-btn';
+                            btn.innerText = 'Deeper Insights';
+                            btn.style.margin = '10px 0';
+                            btn.onclick = function() {
+                                container.innerHTML += `<div class="loading-message">Deeper insights for ${tab} coming soon!</div>`;
+                                btn.style.display = 'none';
+                            };
+                            container.appendChild(btn);
+                        }
+                    });
+                }, 1000);
+                
                 // Initialize chart controller
                 initializeChartController();
                 
@@ -811,11 +830,11 @@
             return `<h3>Your Numerology Reading</h3><p>Life Path Number: ${sum}</p><p>${meanings[sum]}</p>`;
         }
 
-        function showMoreInsights() {
+        function showMoreInsights(mode) {
             let moreOutput = '';
             const { name, zodiac, birthdate } = userData;
 
-            if (selectedMode === 'horoscope') {
+            if (mode === 'horoscope') {
                 const extraMessages = [
                     `${name}, your ${zodiac} spirit attracts luck through dialogue today. Engage in conversations—they may spark revelations.`,
                     `The stars align for ${name}, amplifying ${zodiac} traits like ingenuity. Channel this into projects—success awaits your creativity.`,
@@ -823,7 +842,7 @@
                 ];
                 const randomIdx = Math.floor(Math.random() * extraMessages.length);
                 moreOutput = `<h3>Deeper Cosmic Insights</h3><p>${extraMessages[randomIdx]}</p>`;
-            } else {
+            } else if (mode === 'numerology') {
                 const date = new Date(birthdate);
                 let nameNumber = name.toLowerCase().split('').reduce((sum, char) => sum + (char.charCodeAt(0) - 96), 0);
                 while (nameNumber > 9) nameNumber = nameNumber.toString().split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
@@ -842,8 +861,22 @@
                 moreOutput = `<h3>Deeper Numerology Insights</h3><p>Name Number: ${nameNumber}</p><p>${nameMeanings[nameNumber]}</p>`;
             }
 
-            document.getElementById('output').innerHTML += moreOutput;
-            document.getElementById('learn-more-btn').style.display = 'none';
+            // Unified interface: output to correct section
+            if (mode === 'horoscope') {
+                document.getElementById('horoscope-output').innerHTML += moreOutput;
+                document.getElementById('more-horoscope-btn').style.display = 'none';
+            } else if (mode === 'numerology') {
+                document.getElementById('numerology-output').innerHTML += moreOutput;
+                document.getElementById('more-numerology-btn').style.display = 'none';
+            } else {
+                // fallback
+                if (document.getElementById('output')) {
+                    document.getElementById('output').innerHTML += moreOutput;
+                }
+                if (document.getElementById('learn-more-btn')) {
+                    document.getElementById('learn-more-btn').style.display = 'none';
+                }
+            }
         }
     </script>
     <!-- Include our astrological chart scripts -->
@@ -971,39 +1004,37 @@
                 },
                 
                 showAnalysisTab: function(tabName, analysis = null) {
-                    if (!this.analyzer && !analysis) return;
-                    
+                    if (!this.analyzer && !analysis) {
+                        const content = document.getElementById('analysis-content');
+                        if (content) content.innerHTML = '<div class="loading-message">No chart data available. Please generate your chart first.</div>';
+                        return;
+                    }
                     const content = document.getElementById('analysis-content');
                     if (!content) return;
-                    
                     // If analysis not provided, use the one from the analyzer
                     const data = analysis || this.analyzer.generateFullAnalysis();
-                    
                     let html = '';
                     
                     switch (tabName) {
                         case 'planets':
-                            // Planet positions tab
                             html = this.generatePlanetsTabHTML(data.planetPositions);
                             break;
-                            
                         case 'houses':
-                            // House cusps tab
                             html = this.generateHousesTabHTML(data.houseCusps);
                             break;
-                            
                         case 'aspects':
-                            // Aspects tab
                             html = this.generateAspectsTabHTML(data.aspects);
                             break;
-                            
                         case 'patterns':
-                            // Patterns tab (combines element/modality balance and special patterns)
                             html = this.generatePatternsTabHTML(data);
                             break;
+                        default:
+                            html = '<div class="loading-message">No data for this tab.</div>';
                     }
-                    
+                    if (!html) html = '<div class="loading-message">No data for this tab.</div>';
                     content.innerHTML = html;
+                    // Always re-attach tab listeners after rendering
+                    attachAnalysisTabListeners();
                 },
                 
                 generatePlanetsTabHTML: function(planets) {
@@ -1276,11 +1307,28 @@
         }
         
         // Initialize when page loads
+        // Helper: Attach listeners to analysis tabs
+        function attachAnalysisTabListeners() {
+            const analysisTabs = document.querySelectorAll('.analysis-tab');
+            analysisTabs.forEach(tab => {
+                tab.onclick = function(e) {
+                    analysisTabs.forEach(t => t.classList.remove('active'));
+                    e.target.classList.add('active');
+                    const tabName = e.target.getAttribute('data-tab');
+                    if (window.chartController && window.chartController.showAnalysisTab) {
+                        window.chartController.showAnalysisTab(tabName);
+                    }
+                };
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize chart controller if natal chart is selected
-            if (selectedMode === 'natalchart') {
-                initializeChartController();
-            }
+            // Directly initialize the unified interface and input form on page load
+            initializeUnifiedInterface();
+            document.getElementById('astro-input').style.display = 'block';
+            document.getElementById('cosmic-info').style.display = 'block';
+            // Attach listeners immediately in case analysis tabs are present
+            attachAnalysisTabListeners();
         });
     </script>
 </body>
